@@ -317,7 +317,7 @@
     function del(id) {
       $.ajax({
         type: "delete",
-        url: "HTTPS://mp3.zzgoodqc.cn/api/songs/" + id,
+        url: "https://mp3.zzgoodqc.cn/api/songs/" + id,
         dataType: "json",
         success: function (del) {
           if (confirm("确认删除吗???")) {
