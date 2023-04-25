@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>歌曲</title>
+    <!-- 引入 layui.css -->
+    <link href="//unpkg.com/layui@2.7.6/dist/css/layui.css" rel="stylesheet" />
+
+    <!-- 引入 layui.js -->
+    <script src="//unpkg.com/layui@2.7.6/dist/layui.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .box {
+        width: 100%;
+        height: 900px;
+        background: pink;
+      }
+      .imgbox {
+        width: 60px;
+        height: 60px;
+      }
+      .nav {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .left_menu {
+        display: flex;
+      }
+      .input_width {
+        width: 213px;
+    height: 26px;
+    text-indent: 10px;
+    letter-spacing: 3px;
+    font-size: 15px;
+    margin-left: 47px;
+    border-radius: 3px;
+      }
+      .search_btn {
+        width: 70px;
+        height: 30px;
+        font-size: 15px;
+        letter-spacing: 2px;
+        background-color: rgb(255, 192, 203);
+        border: none;
+        color: white;
+        border-radius: 5px;
+      }
+      .imgBox {
+        margin-right: 80px;
+      }
+      .tab_box {
+        width: 90%;
+        margin: 10px auto;
+      }
+
+      td {
+        text-align: center;
+      }
+      #tbody tr {
+        height: 40px;
+      }
+      #tbody tr:hover {
+        background-color: #e4dcdcaa;
+      }
+      .addList,
+      .gaiList {
+        width: 450px;
+        height: 300px;
+        background-color: rgba(250, 214, 220, 0.823);
+        position: absolute;
+        top: 188px;
+        box-shadow: 0px 2px 14px 6px white;
+        display: none;
+        left: 500px;
+        border-radius: 10px;
+      }
+      .nav {
+        display: flex;
+        justify-content: space-between;
+      }
+      .addList pre input {
+        width: 200px;
+        height: 20px;
+      }
+      .Btn,
+      .Btn1 {
+        height: 30px;
+        width: 80px;
+        background-color: rgb(85, 224, 249);
+        border: none;
+        border-radius: 10px;
+        color: black;
+      }
+      .Btn {
+        color: red;
+      }
+      .Btn1 {
+        color: white;
+      }
+      #delBtn{
+        width: 70px;
+        height: 30px;
+        font-size: 15px;
+        letter-spacing: 2px;
+        background-color: rgb(227, 73, 99);
+        border: none;
+        color: white;
+        border-radius: 5px;
+      }
+      .butt,.butt1,.butt2{
+        width: 60px;
+        height: 30px;
+        border-radius:5px ;
+      }
+      .butt{
+        background-color: palevioletred;
+        color:white ;
+        border-color:palevioletred ;
+      }
+      .butt1{
+        background-color: deepskyblue;
+        color:white ;
+        border-color:deepskyblue ;
+      }
+      .butt2{
+       background-color: darkseagreen;
+        color:white ;
+        border-color:darkseagreen; ;
+      }
+     
+    </style>
+  </head>
+  <body>
+    <!-- 修改 -->
+    <div class="gaiList">
+      <pre>
+
+        
+         歌曲名称: <input type="text" id="songsNames" placeholder="请输入歌曲名称">
+
+           艺术家: <input type="text" id="artists" placeholder="请输入艺术家">
+
+         专辑名称: <input type="text" id="albums"placeholder='请输入专辑名称'>
+
+             年代: <input type="text" id="years" placeholder="请输入年代">
+  
+             类型: <input type="text" id="genres" placeholder="请输入类型">
+
+
+                  <button onclick="gai()" class="Btn1" >确认修改</button>    <button onclick="off()" class="Btn" >取消</button>  
+      </pre>
+    </div>
+    <!-- 添加 -->
+    <div class="addList">
+      <pre>
+
+
+         歌曲名称: <input type="text" id="songsName" placeholder="请输入歌曲名称">
+
+           艺术家: <input type="text" id="artist" placeholder="请输入艺术家">
+
+         专辑名称: <input type="text" id="album"placeholder='请输入专辑名称'>
+
+             年代: <input type="text" id="year" placeholder="请输入年代必须是2001年">
+  
+             类型: <input type="text" id="genre" placeholder="请输入类型">
+
+
+                  <button onclick="okAdd()" class="Btn1" >确认添加</button>    <button onclick="off()" class="Btn" >取消</button>  
+      </pre>
+    </div>
+    <div class="nav-box">
+      <ul class="layui-nav nav">
+        <div class="left_menu">
+          <input type="text" class="input_width"id='inputText' placeholder="请输入搜索内容" />
+          <button class="search_btn" id="sou">搜索</button>
+          &nbsp;&nbsp;<button id="delBtn">批量删除</button>
+        </div>
+        <li class="layui-nav-item imgBox">
+          <span class="colorText"
+            ><img
+              src="data:image/jpeg;base64,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"
+              class="layui-nav-img imgbox"
+            />backgroundColor</span
+          >
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:; " class="white">white</a></dd>
+            <dd><a href="javascript:;" class="pink">pink</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+    <div class="tab_box">
+      <table border="1px" style="width: 100%; margin: auto">
+        <thead>
+          <tr style="height: 60px; background-color: #ccc">
+            <td><input type="checkbox" /></td>
+            <td>编号</td>
+            <td>标题</td>
+            <td>艺术家</td>
+            <td>专辑名称</td>
+            <td>年份</td>
+            <td>类型</td>
+
+            <td>操作</td>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    
+ 
+  </body>
+  <script>
+   //搜索
+   $('#sou').on('click',function(){
+     let searchText=$('#inputText').val()
+     console.log(searchText);
+     $.ajax({
+      type:'get',
+      url:'http://81.68.107.245/api/songs/'+searchText,
+      dataType:'json',
+      headers:{'Content-type':'application/json'},
+      success:function(data){
+        console.log(data.data);
+      }
+     })
+   })
+    //确认修改列表
+    function gai() {
+      $.ajax({
+        type: "PUT",
+        url: "https://mp3.zzgoodqc.cn/api/songs/" + xiu,
+        dataType: "json",
+        headers: { "Content-Type": "application/json" },
+        data: JSON.stringify({
+          title: $("#songsNames").val(),
+          artist: $("#artists").val(),
+          album: $("#albums").val(),
+          year: $("#years").val(),
+          genre: $("#genres").val(),
+        }),
+
+        success: function (data) {
+          if (data.code == 200) {
+            console.log('修改成功');
+            xuanRan()
+          }
+        },
+      });
+    }
+
+    $(document).ready(function () {
+      changeColor();
+      $("body").css("backgroundColor", "white");
+      //   //渲染列表
+      xuanRan();
+    });
+    //颜色切换
+    function changeColor() {
+      $(".white").on("click", function () {
+        $("body").css("backgroundColor", "white");
+      });
+      $(".pink").on("click", function () {
+        $("body").css("backgroundColor", "pink");
+      });
+    }
+    //渲染列表
+    function xuanRan() {
+      $.ajax({
+        type: "get",
+        url: "HTTPS://mp3.zzgoodqc.cn/api/songs",
+        dataType: "json",
+        data: {
+          page: 1,
+          pageSize: 10,
+        },
+        success: function (data) {
+          let html = "";
+          $(data.data).each((index, item) => {
+            html += `
+                <tr>
+             <td><input type="checkbox"></td>
+            <td>${item.id}</td>
+            <td>${item.title}</td>
+            <td>${item.artist}</td>
+            <td>${item.album}</td>
+            <td>${item.year}</td>
+            <td>${item.genre}</td>
+            
+           
+            
+            <td>
+              <button onclick=kan() class='butt2'>查看</button>
+                <button add=${item.id} onclick=addFun() class='butt'>添加</button>
+                <button edit=${item.id} onclick=modify(this) class='butt1'>编辑</button>
+                <button onclick=del(${item.id}) class='butt2'>删除</button>
+                </td>
+          </tr>
+                
+                `;
+          });
+
+          $("#tbody").html(html);
+        },
+      });
+    }
+    //删除列表
+    function del(id) {
+      $.ajax({
+        type: "delete",
+        url: "HTTPS://mp3.zzgoodqc.cn/api/songs/" + id,
+        dataType: "json",
+        success: function (del) {
+          if (confirm("确认删除吗???")) {
+            xuanRan();
+          }
+        },
+      });
+    }
+    //添加列表
+    function addFun() {
+      $(".addList").css("display", "block");
+    }
+
+    //取消按钮
+    function off() {
+      $(".addList").css("display", "none");
+      $(".gaiList").css("display", "none");
+    }
+    //确认添加列表
+    function okAdd() {
+      let songsName = $("#songsName").val();
+      let artist = $("#artist").val();
+      let album = $("#album").val();
+      let year = $("#year").val();
+      let genre = $("#genre").val();
+      $.ajax({
+        type: "post",
+        url: "HTTPS://mp3.zzgoodqc.cn/api/songs",
+        dataType: "json",
+        headers: { "Content-Type": "application/json" },
+        data: JSON.stringify({
+          title: songsName,
+          artist: artist,
+          album: album,
+          year: year,
+          genre: genre,
+        }),
+        success: function (res) {
+          if (res.msg == "参数不能为空") {
+            alert("参数不能为空,请重新填写");
+          } else if (res.code == 201) {
+            alert("添加成功");
+            xuanRan();
+          }
+        },
+      });
+    }
+
+    //全选按钮
+    $("thead  input[type=checkbox]").click(function () {
+      console.log(
+        $("tbody input[type=checkbox]").prop("checked", $(this).prop("checked"))
+      );
+    });
+    //批量删除
+    // $('#delBtn').on('click',function(){
+    //   if($("tbody input[type=checkbox]").prop( "checked", $(this).prop("checked"))){
+
+    //   }
+
+    // });
+     //修改列表  回显
+     let xiu; //修改全局id
+    function modify(res) {
+      xiu = $(res).attr("edit");
+      $(".gaiList").css("display", "block");
+      $.ajax({
+        type: "get",
+        url: "https://mp3.zzgoodqc.cn/api/songs/" + xiu,
+        dataType: "json",
+        success: function (data) {
+          if (data.code == 200) {
+            $("#songsNames").val(data.data.title);
+            $("#artists").val(data.data.artist);
+            $("#albums").val(data.data.album);
+            $("#years").val(data.data.year);
+            $("#genres").val(data.data.genre);
+          } else {
+            console.log(data);
+          }
+        },
+      });
+    }
+
+  
+
+ 
+  
+  </script>
+</html>
